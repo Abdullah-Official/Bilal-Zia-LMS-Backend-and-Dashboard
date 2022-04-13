@@ -1,0 +1,9 @@
+.class_card{
+height: 100% !important ;
+background: linear-gradient(90deg, #2F5060 0%, #396E88 92.96%);
+color: #fff;
+}
+.class_card:hover{
+    text-decoration: none !important;
+    color: #fff !important;
+}
