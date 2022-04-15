@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import Swal from "sweetalert2";
 import { createChapter } from "../../reducers/chapterReducer";
 
 const ChapterForm = ({ id, resolvedChapters, chaptersResolved, getChapters }) => {
@@ -12,17 +13,18 @@ const ChapterForm = ({ id, resolvedChapters, chaptersResolved, getChapters }) =>
   React.useEffect(() => {
     setChapterNumber(resolvedChapters?.length + 1)
   },[resolvedChapters])
-  const addChapter = () => {
+  const addChapter = (e) => {
+    e.preventDefault();
     if (chapterName && chapterNumber !== "") {
       dispatch(createChapter({ chapterName, chapterNumber, classId: id }))
       .unwrap().then((e) => {
       setChapterName("");
-      setChapterNumber(chapterNumber + 1)
-      alert(`New Chapter has been created`)
+      setChapterNumber("")
+      Swal.fire("Successfull!", "New Chapter has been created!", "success");
       chaptersResolved()
       getChapters()
       }).catch((e) => {
-        alert("Something went WRONG!")
+        Swal.fire("ERROR!", "Something went WRONG!", "error");
       })
     } else {
       setErr("**Please Fill all required fields ..");

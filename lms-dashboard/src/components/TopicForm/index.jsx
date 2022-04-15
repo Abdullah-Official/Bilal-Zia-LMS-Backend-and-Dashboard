@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 import { createTopic } from "../../reducers/topicReducer";
 
 const TopicForm = ({resolvedTopics, getTopics, topicsResolved}) => {
@@ -18,7 +19,8 @@ const TopicForm = ({resolvedTopics, getTopics, topicsResolved}) => {
     setTopicNumber(resolvedTopics?.length + 1)
   },[resolvedTopics])
 
-  const addTopic = () => {
+  const addTopic = (e) => {
+    e.preventDefault();
     if (topicNumber && topicName && video && topicDescription !== "") {
       dispatch(createTopic({ topicNumber, topicName, video, chapterId, topicDescription }))
       .unwrap()
@@ -26,11 +28,12 @@ const TopicForm = ({resolvedTopics, getTopics, topicsResolved}) => {
         setTopicName("");
         setVideo("");
         setTopicDescription("");
-        alert(`New Topic has been created`)
+        Swal.fire("Successfull!", "New Topic has been created!", "success");
         topicsResolved();
         getTopics();
       }).catch(() => {
-        alert(`Something Went Wrong!`)
+       
+        Swal.fire("ERROR!", "Something went WRONG!", "error");
       })
       
     } else {

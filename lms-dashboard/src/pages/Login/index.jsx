@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import Swal from "sweetalert2";
 import { signinAdmin } from "../../reducers/authReducer";
 import "./styles.module.css";
 
@@ -16,7 +17,7 @@ const Login = () => {
     e.preventDefault();
     dispatch(signinAdmin({ username, password, adminSubject }))
       .unwrap()
-      .then(() => {
+      .then((e) => {
         setUserName("");
         setPassword("");
         setAdminSubject("");
@@ -25,9 +26,16 @@ const Login = () => {
         //     window.location.reload()
         //   }, 2000)
         // }
+        if(e?.error){
+          Swal.fire("ERROR!", e?.error, "error");
+          setUserName("");
+        setPassword("");
+        setAdminSubject("");
+        }
       })
       .catch((e) => {
         console.log(e?.error);
+        Swal.fire("ERROR!", e?.error, "error");
         setUserName("");
         setPassword("");
         setAdminSubject("");
@@ -41,7 +49,7 @@ const Login = () => {
             <div className="col-md-6">
               <form className="text-center" action="#!">
                 <h2 className="h1 mb-4">Admin Login</h2>
-                <p className="my-3 text-danger">{state.error}</p>
+                {/* <p className="my-3 text-danger">{state.error}</p> */}
                 <input
                   required
                   type="text"

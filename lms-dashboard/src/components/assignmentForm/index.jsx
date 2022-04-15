@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 import { createAssignment } from "../../reducers/assignmentReducer";
 import { createQuiz } from "../../reducers/quizReducer";
 
@@ -25,12 +26,12 @@ const AssignmentForm = ({assignementResolved, getAssignment}) => {
       setQuestion("");
       setCorrectAnswer("");
       setSolution("");
-      alert(`New Question has been created`);
+      Swal.fire("Successfull!", "New Question has been created", "success");
       getAssignment()
       assignementResolved();
     })
     .catch(() => {
-      alert(`Something went WRONG!`);
+      Swal.fire("ERROR!", "Something went WRONG!", "error");
       setQuestion("");
       setCorrectAnswer("");
       setSolution("");

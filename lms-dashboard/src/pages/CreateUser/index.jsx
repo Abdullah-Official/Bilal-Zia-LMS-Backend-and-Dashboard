@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signupAdmin, fetchTeachers } from "../../reducers/authReducer";
 import { useFormik } from "formik";
@@ -12,7 +12,7 @@ const CreateUser = () => {
   const [form, setForm] = React.useState(true);
   const [teachers, setTeachers] = React.useState([]);
   const dispatch = useDispatch();
-  console.log(state);
+  const [err, setErr] = React.useState('');
   const createTeacher = (values) => {
     // e.preventDefault();
     dispatch(signupAdmin(values))
@@ -21,11 +21,19 @@ const CreateUser = () => {
         if (e?.message) {
           Swal.fire("Successfull!", e?.message, "success");
         }
+        if (e?.error) {
+          Swal.fire("ERROR!", e?.error, "error");
+        }
+        console.log(e)
       })
       .catch((e) => {
-        alert(e?.error);
+        if (e?.error) {
+          Swal.fire("ERROR!", e?.error, "error");
+        }
+       console.log(e)
       });
   };
+
 
   const getTeachers = () => {
     dispatch(fetchTeachers());
@@ -113,7 +121,7 @@ const CreateUser = () => {
                 <div className="col-md-6">
                   <form className="text-center" action="#!">
                     <h2 className="h1 mb-4">New Teacher</h2>
-                    <p className="my-3 text-danger">{state.error}</p>
+                    {/* <p className="my-3 text-danger">{state?.error}</p> */}
                     <div className="mb-3">
                       <input
                         required

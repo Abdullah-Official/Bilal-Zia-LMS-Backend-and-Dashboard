@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 import { createSubject } from "../../reducers/subjectReducer";
 
 const SubjectForm = ({resolvedSubjects}) => {
@@ -29,7 +30,14 @@ console.log(resolvedSubjects, " subjs")
   const addSubject = (e) => {
     e.preventDefault();
     if (subjectName !== "" ) {
-      dispatch(createSubject({ subject:subjectName, classId }));
+      dispatch(createSubject({ subject:subjectName, classId })).
+      unwrap()
+      .then(() => {
+        Swal.fire("Successfull!", 'New Subject has been created', "success");
+      }).catch((e) => {
+        console.log(e)
+        Swal.fire("ERROR!", "Can't Create Subject", "error");
+      }) 
       setSubjectName('')
     } else {
       setErr("**Please fill all required fields ..");

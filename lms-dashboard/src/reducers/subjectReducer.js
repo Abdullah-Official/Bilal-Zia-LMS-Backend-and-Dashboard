@@ -26,7 +26,6 @@ const subjectReducer = createSlice({
       if (message) {
         state.push(message);
         console.log(message)
-        alert("New subject has been created");
       }
     },
     [deleteSubject.fulfilled]: (state, action) => {
